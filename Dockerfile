@@ -1,19 +1,29 @@
-FROM node:20
+# Use a Debian-based Node image so we can apt-get
+FROM node:20-slim
 
-# Set working dir
 WORKDIR /app
 
-# Copy all project files
-COPY . .
+# Install git, supervisor, and trusted CAs
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      git \
+      supervisor \
+      ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
 
-# Install supervisor
-RUN apt-get update && apt-get install -y supervisor
+# Copy orchestrator files
+COPY start.sh /app/start.sh
+COPY supervisor.conf /app/supervisor.conf
+COPY .env /app/.env
 
-# Make script executable
-RUN chmod +x start.sh
+# Make start.sh executable
+RUN chmod +x /app/start.sh
 
-# Install serve (used by frontend)
+# Install 'serve' globally for frontend
 RUN npm install -g serve
 
-# Default command
-CMD ["./start.sh"]
+# Expose ports for frontend (5173) and backend (3000)
+EXPOSE 5173 3000
+
+# Launch the startup script
+CMD ["/app/start.sh"]
