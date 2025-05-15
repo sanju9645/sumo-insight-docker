@@ -130,15 +130,6 @@ AUTH0_ISSUER_BASE_URL=https://<your-auth0-domain>/
 * **AUTH0\_AUDIENCE**: Must match the API Identifier created in Auth0.
 * **AUTH0\_ISSUER\_BASE\_URL**: This is `https://<your-auth0-domain>/`.
 
-### 👤 Logging In
-
-Once set up:
-
-* Navigate to `http://localhost:5173`.
-* Click **Login**.
-* You’ll be redirected to Auth0’s secure login page.
-* After successful login, you'll be redirected back to your application with an access token used to communicate securely with the backend.
-
 ---
 
 
